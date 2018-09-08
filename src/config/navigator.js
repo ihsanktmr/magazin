@@ -14,7 +14,44 @@ import {Icon} from 'react-native-elements';
 import Searchresultpage from '../routes/search/Searchresult'
 import Cover from '../routes/mainpage/maincontainer/containers/Covercontainer'
 
+export const GotopdfFromCover = createStackNavigator({
 
+
+
+    Homepage: {
+
+        screen: Homepage,
+        navigationOptions: {
+            header: null   //if we had not added this navigation between mainpage, search and other tabs cause some problem like
+        },                     //when you try to navigate from profile or mymagazine to search header will not appear, but
+        //if you try to open search when you are on homepage header will appear. so we set header null.
+    },
+    Openpdf: {
+        screen: Pdfpage,
+        navigationOptions: ({navigation}) => ({
+
+            headerLeft: <Icon name={'keyboard-arrow-left'}
+                              iconStyle={{color:'#3f3f3f', marginTop: 20}}
+                              size={40}
+                              onPress={() => {
+                                  navigation.goBack()
+                              }}/>,
+
+        }),
+
+    },
+});
+
+GotopdfFromCover.navigationOptions = ({ navigation }) => {
+    let tabBarVisible = true;
+    if (navigation.state.index > 0) {
+        tabBarVisible = false;
+    }
+
+    return {
+        tabBarVisible,
+    };
+};
 
 export const Gotopdf = createStackNavigator({
 
@@ -98,6 +135,26 @@ export const Gotopayment = createStackNavigator({
                                   navigation.goBack()
                               }}/>,
             headerTitle: 'Arama sonuçları',
+            headerTitleStyle: {
+                fontWeight: 'normal',
+                fontStyle: 'italic',
+                marginTop: 15,
+                fontSize:16
+            },
+
+        }),
+    },
+    Openpdf: {
+        screen: Pdfpage,
+        navigationOptions: ({navigation}) => ({
+
+            headerLeft: <Icon name={'keyboard-arrow-left'}
+                              iconStyle={{color:'#3f3f3f', marginTop: 20}}
+                              size={40}
+                              onPress={() => {
+                                  navigation.goBack()
+                              }}/>,
+            headerTitle: '',
             headerTitleStyle: {
                 fontWeight: 'normal',
                 fontStyle: 'italic',
@@ -205,6 +262,7 @@ tryPayment.navigationOptions = ({ navigation }) => {
     let tabBarVisible = true;
     if (navigation.state.index > 0) {
         tabBarVisible = false;
+
     }
 
     return {
@@ -242,7 +300,9 @@ export const Tabs = createBottomTabNavigator({
             screen: Gotopdf,
             navigationOptions: ({ navigation }) => ({
                 tabBarLabel: 'Dergilerim',
-                tabBarIcon: ({tintColor}) => <Icon name='bookmark' size={24} color={tintColor}/>,
+                tabBarIcon: ({tintColor}) => <Icon name='bookmark' size={24} color={tintColor}
+                />,
+
             }),
         },
     },
@@ -260,6 +320,7 @@ export const Tabs = createBottomTabNavigator({
         tabBarPosition: 'bottom',
         animationEnabled: false,
         backBehavior: 'none',
+
     }
 );
 

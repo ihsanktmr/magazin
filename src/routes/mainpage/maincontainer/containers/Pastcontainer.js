@@ -80,7 +80,10 @@ class Past extends Component {
                     data: res.dergiler
                 });
             })
-            .catch(error = () => console.log(error));
+            .catch(error => {
+                this.setState({error, loading: false});
+                console.log(error)
+            });
     };
 
     goToPayment = (item) => {
@@ -88,6 +91,7 @@ class Past extends Component {
     };
 
     render() {
+
         return (
             <View style={styles.mainContainer}>
 
@@ -124,18 +128,29 @@ class Past extends Component {
                             data={this.state.data}
                             renderItem={({item}) => (
 
-                                <TouchableWithoutFeedback onPress={() => this.goToPayment(item)}>
+                                <TouchableWithoutFeedback onPress={(event) => {   // onPress event fires with an event object
+                                    const {navigate} = this.props.navigation;
+                                    navigate('Payment', {
+                                        isim: item.isim,
+                                        image: item.image,
+                                        sayisi: item.sayisi,
+                                        PDF: item.PDF,
+                                        tarih: item.tarih,
+                                        ID: item.ID,
+                                        keyParameter: this.props.keys
+                                    })
+                                }}>
                                     <View style={styles.container}>
                                         <Image style={styles.image}
                                                source={{uri: item.image}}
                                         />
-                                        <View style={{ flex: 1}}>
-                                            <Text style={{fontSize: 12, color: '#3f3f3f',marginTop:1.75}}>
-                                                {((item.isim).length > 18) ?
-                                                    (((item.isim).substring(0, 18 - 3)) + '...') :
+                                        <View style={{flex: 1}}>
+                                            <Text style={{fontSize: 12, color: '#3f3f3f', marginTop: 1.75}}>
+                                                {((item.isim).length > 16) ?
+                                                    (((item.isim).substring(0, 16 - 3)) + '...') :
                                                     item.isim}
                                             </Text>
-                                            <Text style={{fontSize: 10, color: 'grey',marginTop:2.5}}>
+                                            <Text style={{fontSize: 10, color: 'grey'}}>
                                                 {item.tarih + " " + item.sayisi + ".Sayı"}
                                             </Text>
                                         </View>
@@ -148,7 +163,7 @@ class Past extends Component {
                             ListHeaderComponent={this.renderHeader}
                             ListFooterComponent={this.renderFooter}
                             onEndReached={this.handleLoadMore}
-                            onEndReachedThreshold={0.20}
+                            onEndReachedThreshold={2}
                             numColumns={1}
                             key={'THREE COLUMN'}
                         />
@@ -169,12 +184,11 @@ const styles = StyleSheet.create({
     },
     image: {
         width: '100%',
-        height: '74%',//burası 80 idi
+        height: '80%',//burası 80 idi
     },
     container: {
-        flex:1,
-      //  width: deviceWidth/1.075,   // bu kısım cıkarılıp üstteki flex:1 eklendi
-     //   height: deviceHeight,
+        width: deviceWidth,
+        height: deviceHeight,
         marginHorizontal: 5,
         marginBottom: 10,
         alignItems: 'center',

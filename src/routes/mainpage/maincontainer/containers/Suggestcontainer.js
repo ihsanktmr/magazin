@@ -33,6 +33,8 @@ class Suggest extends Component {
         this.makeRemoteRequest();
     }
 
+
+
     serializeKey(data) {
         let formBody = [];
         for (let property in data) {
@@ -66,7 +68,10 @@ class Suggest extends Component {
                     data: res.dergiler
                 });
             })
-            .catch(error = () => console.log(error));
+            .catch(error => {
+                this.setState({error, loading: false});
+                console.log(error)
+            });
     };
 
     goToPayment = (item) => {
@@ -110,25 +115,35 @@ class Suggest extends Component {
                             data={this.state.data}
                             renderItem={({item}) => (
 
-                                    <TouchableWithoutFeedback onPress={() => this.goToPayment(item)}>
-                                        <View style={styles.container}>
-                                            <Image style={styles.image}
-                                                   source={{uri: item.image}}
-                                            />
+                                <TouchableWithoutFeedback onPress={(event) => {   // onPress event fires with an event object
+                                    const {navigate} = this.props.navigation;
+                                    navigate('Payment', {
+                                        isim: item.isim,
+                                        image: item.image,
+                                        sayisi: item.sayisi,
+                                        PDF: item.PDF,
+                                        tarih: item.tarih,
+                                        ID: item.ID,
+                                        keyParameter: this.props.keys
+                                    })
+                                }}>
+                                    <View style={styles.container}>
+                                        <Image style={styles.image}
+                                               source={{uri: item.image}}
+                                        />
 
-
-                                            <View style={{flex:1}}>
-                                            <Text style={{fontSize: 12,color: '#3f3f3f',marginTop:1.75}}>
-                                                {((item.isim).length > 20) ?
-                                                    (((item.isim).substring(0, 20 - 3)) + '...') :
+                                        <View style={{flex: 1}}>
+                                            <Text style={{fontSize: 12, color: '#3f3f3f', marginTop: 1.75}}>
+                                                {((item.isim).length > 16) ?
+                                                    (((item.isim).substring(0, 16 - 3)) + '...') :
                                                     item.isim}
                                             </Text>
-                                            <Text style={{fontSize: 10, color: 'grey',marginTop:2.5}}>
-                                                {item.tarih+" "+item.sayisi+".Sayı"}
+                                            <Text style={{fontSize: 10, color: 'grey'}}>
+                                                {item.tarih + " " + item.sayisi + ".Sayı"}
                                             </Text>
-                                            </View>
                                         </View>
-                                    </TouchableWithoutFeedback>
+                                    </View>
+                                </TouchableWithoutFeedback>
                             )}
                             horizontal={false}
                             //  ItemSeparatorComponent={this.renderSeparator}
@@ -156,7 +171,7 @@ const styles = StyleSheet.create({
         height: '80%',
     },
     container: {
-        width: deviceWidth/1.030,
+        width: deviceWidth,
         height: deviceHeight,
         marginHorizontal: 5,
         marginBottom: 10,
@@ -183,13 +198,13 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom:-8,
-        paddingHorizontal:15
+        marginBottom: -8,
+        paddingHorizontal: 15
     },
     mainContainer: {
         flex: 1,
         flexDirection: 'column',
-        backgroundColor:'white'
+        backgroundColor: 'white'
     },
     suggestButton: {
         backgroundColor: 'white',

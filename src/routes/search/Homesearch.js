@@ -9,7 +9,7 @@ import {
     FlatList,
     Picker,
     TouchableWithoutFeedback,
-    Dimensions, StatusBar, Navigator
+    Dimensions, StatusBar, Navigator, Alert
 } from 'react-native';
 
 import {Content, Icon} from 'native-base';
@@ -22,12 +22,14 @@ import Spinner from 'react-native-spinkit';
 import {List} from "react-native-elements";
 
 import ModalDropdown from 'react-native-modal-dropdown';
+import {sayiDondur} from "../payment/Buycontainer";
 
 let windowWidth = Dimensions.get('window').width;
 let windowHeight = Dimensions.get('window').height;
 
 let deviceWidth = Dimensions.get('window').width / 3.4;
 let deviceHeight = Dimensions.get('window').height / 3.2;
+
 
 class Searchpage extends Component {
 
@@ -54,6 +56,7 @@ class Searchpage extends Component {
             isText: false
         };
         this.makeRemoteRequestForPicker();
+
     }
 
     serializeKey(data) {
@@ -68,13 +71,12 @@ class Searchpage extends Component {
     }
 
     componentDidMount() {
-        if (this.state.isSearched === true) this.searchBring(this.state.sayisi);
-        else this.makeRemoteRequest();
-    }
+          this.setState({loading: true});
+          setTimeout(() => this.makeRemoteRequest(), 100);
+        }
 
     makeRemoteRequest = () => {
         const url = `https://www.neocrea.com.tr/magazin/json.php`;
-        this.setState({loading: true});
 
         fetch(url, {
             method: "POST",
@@ -95,7 +97,7 @@ class Searchpage extends Component {
             })
             .catch(error => {
                 this.setState({error, loading: false});
-                console.log(error)
+                console.log(error);
             });
     };
 
@@ -139,14 +141,6 @@ class Searchpage extends Component {
             () => {
                 this.makeRemoteRequest();
             }
-        );
-    };
-
-    renderSeparator = () => {
-        return (
-            <View
-                style={styles.renderSeparator}
-            />
         );
     };
 
@@ -195,66 +189,38 @@ class Searchpage extends Component {
         }
     };
 
-    searchBring = () => {
 
-        const url = `https://www.neocrea.com.tr/magazin/json.php`;
-        this.setState({isSearched: true, loading: true});
-
-        fetch(url, {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: this.serializeKey({
-                islem: "dergi_bul",
-                //   isim: this.state.text,
-                sayisi: this.state.sayisi
-            })
-        })
-            .then(res => res.json())
-            .then(res => {
-                this.setState({
-                    searchResult: res.dergiler,
-                    loading: false
-                });
-            })
-            .catch(error => {
-                this.setState({error, loading: false});
-                console.log(error)
-            });
-    };
-
-    handleOnChange = (text) => {
+    handleOnChange = (text) => {  //buda farklı guzel bir yontem
         this.setState({text: text});
         if (!text) this.setState({isSearched: false});
     };
 
-    bringAll = () => {
-        this.setState({isSearched: false})
-    };
-
-
-    goToPayment = (item) => {
-        this.props.navigation.navigate('Payment', item);
-    };
-
     onTagSelect = (idx, data) => {  //search functionı için
+        let keyParameter = this.props.screenProps.keys;
 
-        this.props.navigation.navigate('Payment', data);
+        const {navigate} = this.props.navigation;
+        navigate('Payment', {
+            isim: data.isim,
+            image: data.image,
+            sayisi: data.sayisi,
+            PDF: data.PDF,
+            tarih: data.tarih,
+            ID: data.ID,
+            keyParameter: keyParameter
+        })
 
-        // this.setState({sayisi: data.sayisi}) // buna falan gerek yokmuş ama ilerde olabilir dursun zararsız
     };
 
     render() {
+
+        let keyParameter = this.props.screenProps.keys;
+
+        // const Homemymagazinekey = this.props.screenProps.keys.find((key) => (key.routeName === 'Mymagazine')).key;
 
         //burayı daha sonra eklicem bordertopwidth kısmını
         return (
             <View style={{flex: 1, backgroundColor: 'white'}}>
 
-                <StatusBar
-                    backgroundColor="white"
-                    barStyle="dark-content"
-                />
 
                 <View style={{
                     position: 'absolute',
@@ -293,7 +259,7 @@ class Searchpage extends Component {
                                            animated={true}
                                            textStyle={{color: 'green', fontSize: 10}}
                                            style={{paddingHorizontal: 2}}
-                                           defaultValue={"Getirmek istediğiniz dergi için tıklayınız"}
+                                           defaultValue={"Dergi getir"}
                                            showsVerticalScrollIndicator={true}
                                            dropdownTextStyle={{fontSize: 9, paddingHorizontal: 25}}
                                            enableEmptySections/>
@@ -322,9 +288,20 @@ class Searchpage extends Component {
 
                     <FlatList
                         contentContainerStyle={this.state.GridColumnsValue ? styles.paddingStyleList : styles.paddingStyleGrid}
-                        data={this.state.isSearched ? this.state.searchResult : this.state.data}
+                        data={this.state.data}
                         renderItem={({item}) => (
-                            <TouchableWithoutFeedback onPress={() => this.goToPayment(item)}>
+                            <TouchableWithoutFeedback onPress={(event) => {   // onPress event fires with an event object
+                                const {navigate} = this.props.navigation;
+                                navigate('Payment', {
+                                    isim: item.isim,
+                                    image: item.image,
+                                    sayisi: item.sayisi,
+                                    PDF: item.PDF,
+                                    tarih: item.tarih,
+                                    ID: item.ID,
+                                    keyParameter: keyParameter
+                                })
+                            }}>
                                 <View
                                     style={this.state.GridColumnsValue ? styles.viewContainerList : styles.viewContainerGrid}>
                                     <Image style={this.state.GridColumnsValue ? styles.listImage : styles.gridImage}
@@ -360,7 +337,7 @@ class Searchpage extends Component {
                         //    onRefresh={this.handleRefresh}
                         //   refreshing={this.state.refreshing}
                         onEndReached={this.handleLoadMore}
-                        onEndReachedThreshold={0.20}
+                        onEndReachedThreshold={2}
                     />
                 </List>
             </View>
@@ -432,7 +409,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 3
     },
     viewContainerList: {
-        height: deviceHeight * 2.2,
+        height: deviceHeight * 2.1,
         width: deviceWidth * 2.5,
         backgroundColor: 'white',
         marginHorizontal: 6,
@@ -492,7 +469,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         height: windowHeight / 25,
-        width: windowWidth * 0.48,
+        width: windowWidth * 0.20,
         marginRight: 4
     },
     renderSeparatorList: {

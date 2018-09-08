@@ -19,6 +19,7 @@ let deviceHeight = Dimensions.get('window').height;
 export default class Maincontainer extends Component<Props> {
 
     render() {
+        let keys =this.props.keys;
         return (
 
             <View style={{flex: 1}}>
@@ -34,13 +35,13 @@ export default class Maincontainer extends Component<Props> {
                             <Header/>
                         </View>
                         <View style={{flex: 0.85, paddingHorizontal: 7.5, marginTop: 5}}>
-                            <Cover/>
+                            <Cover />
                         </View>
                         <View style={{flex: 1, marginBottom: -20, marginTop: 10}}>
-                            <Suggest/>
+                            <Suggest keys={keys}/>
                         </View>
                         <View style={{flex: 1, paddingHorizontal: 7.5}}>
-                            <Past/>
+                            <Past keys={keys}/>
                         </View>
                     </View>
 
@@ -57,7 +58,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
     },
     contentContainer: {
-        width: null,
+        width: deviceWidth,
         height: deviceHeight * 1.4,
         backgroundColor: 'white',
     }

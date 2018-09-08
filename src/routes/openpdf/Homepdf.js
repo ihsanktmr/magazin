@@ -1,7 +1,11 @@
 import React, {Component} from 'react';
-import {View, Text, Image, Button, StyleSheet, Dimensions} from 'react-native';
+import {View, Text, Image, Button, StyleSheet, Dimensions, StatusBar} from 'react-native';
 
 import Pdf from 'react-native-pdf';
+export function MyClass() { // constructor function
+    MyClass.staticProperty = "baz";
+
+}
 
 class Pdfpage extends Component {
     constructor(props) {
@@ -10,12 +14,17 @@ class Pdfpage extends Component {
         this.state = {
             page: 0,
             numberOfPages: 0,
-        }
+            isOpened: false,
+        };
+
     }
 
+
     render() {
-        const {sayisi, isim, PDF} = this.props.navigation.state.params;
+        const { PDF } = this.props.navigation.state.params;
         const source = {uri: PDF, cache: true};
+
+
 
 
         return (
@@ -32,7 +41,7 @@ class Pdfpage extends Component {
                     }}
                     onPageChanged={(page, numberOfPages) => {
                         console.log(page + "/" + numberOfPages);
-                        this.setState({page:page,numberOfPages:numberOfPages})
+                        this.setState({page: page, numberOfPages: numberOfPages})
                     }}
                     fitWidth={true}
                 />
@@ -54,10 +63,10 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     text: {
-        marginTop:'130%',
-        textAlign:'center',
-        fontWeight:'bold',
-        fontSize:22
+        marginTop: '130%',
+        textAlign: 'center',
+        fontWeight: 'bold',
+        fontSize: 22
     }
 });
 export default Pdfpage;

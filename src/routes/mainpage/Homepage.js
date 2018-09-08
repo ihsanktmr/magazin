@@ -13,12 +13,14 @@ export default class Homepage extends Component<Props> {
 
 
     render() {
+
+        let keyParameter = this.props.screenProps.keys;
+
         return (
 
             <View style={styles.container}>
 
-
-                <Maincontainer/>
+                <Maincontainer keys={this.props.screenProps.keys}/>
 
             </View>
         );

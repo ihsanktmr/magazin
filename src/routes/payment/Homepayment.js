@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
-import {View} from 'react-native';
-import Buycontainer from "./Buycontainer";
+import {Button, StatusBar, View} from 'react-native';
+import Buycontainer, {person} from "./Buycontainer";
+
+
 
 class Paymentpage extends Component {
     constructor(props) {
@@ -10,13 +12,19 @@ class Paymentpage extends Component {
 
 
     render() {
-        const { isim,image,sayisi,tarih } = this.props.navigation.state.params;
+
+        const { keyParameter,ID,PDF,isim,image,sayisi,tarih } = this.props.navigation.state.params;
+
         return (
             <View style={{flex: 1,flexDirection: 'row'}}>
+
                 <Buycontainer isim={isim}
                               image={image}
                               sayisi={sayisi}
                               tarih={tarih}
+                              ID={ID}
+                              PDF={PDF}
+                              keyParameter={keyParameter}
                               />
             </View>
         )

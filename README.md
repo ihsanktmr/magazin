@@ -5,4 +5,5 @@ dergi satın alma, abone olma, aratma ve görüntüleme uygulaması / buy magazi
    <img src="http://ihsankatmer.tk/images/magazin1.jpg" width="175">
    <img src="http://ihsankatmer.tk/images/magazin2.jpg" width="175">
    <img src="http://ihsankatmer.tk/images/magazin3.jpg" width="175">
+   <img src="http://ihsankatmer.tk/images/magazin4.jpg" width="175">
 </p>

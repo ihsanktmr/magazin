@@ -1,5 +1,5 @@
 # magazin
-dergi satın alma, abone olma, aratma ve görüntüleme uygulaması / buy magazine pdfs with in app purchase, show and search them (react-native)
+dergi satın alma, abone olma, aratma ve görüntüleme uygulaması / buy magazine pdfs with in app purchase feature, show and search them (react-native)
 
 <p float="left">
    <img src="http://ihsankatmer.tk/images/magazin1.jpg" width="275">

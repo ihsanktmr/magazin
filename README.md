@@ -6,6 +6,8 @@
 • Search and show magazine pdf that contains content of any kind of subject and being published monthly. <br>
 • Buy those magazine pdfs by using In App Purchase feature of android/ios 
 
+©ihsanktmr
+
 <br>
 <br>
 

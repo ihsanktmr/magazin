@@ -1,6 +1,6 @@
 # magazin
 
-• React Native Application <br>
+• React Native Application (iOS ✓ Android ✓)<br>
 • PHP Backend (mysql)
 
 • Search and show magazine pdf that contains content of any kind of subject and being published monthly. <br>

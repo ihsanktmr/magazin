@@ -14,10 +14,10 @@ This app did not aim profit.
 <br>
 
 <p float="left">
-   <img src="http://ihsankatmer.tk/images/magazin1.jpg" width="275">
-   <img src="http://ihsankatmer.tk/images/magazin2.jpg" width="275">
-   <img src="http://ihsankatmer.tk/images/magazin3.jpg" width="275">
-   <img src="http://ihsankatmer.tk/images/magazin5.jpg" width="275">
-   <img src="http://ihsankatmer.tk/images/magazin4.jpg" width="275">
+   <img src="http://ihsankatmer.com/images/magazin1.jpg" width="275">
+   <img src="http://ihsankatmer.com/images/magazin2.jpg" width="275">
+   <img src="http://ihsankatmer.com/images/magazin3.jpg" width="275">
+   <img src="http://ihsankatmer.com/images/magazin5.jpg" width="275">
+   <img src="http://ihsankatmer.com/images/magazin4.jpg" width="275">
  
 </p>
